@@ -1,0 +1,3106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050807">
+<title>GreenOps | Ethical Security Community</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#050807;
+  --bg2:#09100c;
+  --panel:rgba(12,20,16,.82);
+  --panel2:rgba(17,27,21,.92);
+  --border:rgba(80,255,150,.12);
+  --green:#39ff88;
+  --green2:#16c96b;
+  --green3:#9dffc2;
+  --white:#f4fff8;
+  --muted:#82958a;
+  --danger:#ff5470;
+  --warning:#ffc857;
+  --blue:#56a8ff;
+  --shadow:0 20px 70px rgba(0,0,0,.45);
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(40,255,130,.08),transparent 25%),
+    radial-gradient(circle at 90% 80%,rgba(0,255,120,.06),transparent 25%),
+    var(--bg);
+  color:var(--white);
+  font-family:Inter,Arial,sans-serif;
+  overflow-x:hidden;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+::selection{
+  background:var(--green);
+  color:#031009;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.grid-bg{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    linear-gradient(rgba(70,255,150,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(70,255,150,.035) 1px,transparent 1px);
+  background-size:45px 45px;
+}
+
+.noise{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.025;
+  background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:260px;
+  padding:22px 16px;
+  border-right:1px solid var(--border);
+  background:rgba(4,9,7,.88);
+  backdrop-filter:blur(22px);
+  z-index:100;
+  transition:.3s ease;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 8px 24px;
+}
+
+.brand-logo{
+  width:44px;
+  height:44px;
+  border:1px solid rgba(57,255,136,.35);
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(145deg,#123522,#07140d);
+  box-shadow:0 0 30px rgba(57,255,136,.12);
+  position:relative;
+  overflow:hidden;
+}
+
+.brand-logo::after{
+  content:"";
+  position:absolute;
+  width:70px;
+  height:10px;
+  background:rgba(57,255,136,.18);
+  transform:rotate(-45deg);
+  animation:scan 4s linear infinite;
+}
+
+.brand-logo span{
+  color:var(--green);
+  font-size:20px;
+  font-weight:900;
+  font-family:"JetBrains Mono";
+  z-index:2;
+}
+
+.brand-name{
+  font-size:17px;
+  font-weight:800;
+}
+
+.brand-name small{
+  display:block;
+  color:var(--green);
+  font-size:10px;
+  letter-spacing:1.7px;
+  margin-top:3px;
+  font-family:"JetBrains Mono";
+}
+
+.nav-title{
+  color:#52635a;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  padding:18px 12px 8px;
+}
+
+.nav-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border:0;
+  background:transparent;
+  color:#8da097;
+  padding:12px 13px;
+  border-radius:13px;
+  margin:3px 0;
+  text-align:left;
+  transition:.2s;
+}
+
+.nav-item:hover{
+  color:var(--white);
+  background:rgba(57,255,136,.06);
+}
+
+.nav-item.active{
+  color:var(--green);
+  background:linear-gradient(90deg,rgba(57,255,136,.13),transparent);
+  box-shadow:inset 3px 0 var(--green);
+}
+
+.nav-icon{
+  width:21px;
+  text-align:center;
+}
+
+.nav-badge{
+  margin-left:auto;
+  min-width:22px;
+  padding:3px 6px;
+  border-radius:20px;
+  background:rgba(57,255,136,.1);
+  color:var(--green);
+  font-size:10px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  position:absolute;
+  bottom:18px;
+  left:16px;
+  right:16px;
+}
+
+.user-mini{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+  border-radius:15px;
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid rgba(57,255,136,.4);
+}
+
+.user-mini strong{
+  display:block;
+  font-size:12px;
+}
+
+.user-mini span{
+  color:var(--green);
+  font-size:10px;
+  font-family:"JetBrains Mono";
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:260px;
+  min-height:100vh;
+  padding:20px 28px 50px;
+}
+
+.topbar{
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:22px;
+}
+
+.mobile-menu{
+  display:none;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--white);
+  width:42px;
+  height:42px;
+  border-radius:12px;
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.page-title{
+  font-size:23px;
+  font-weight:800;
+}
+
+.page-title span{
+  color:var(--green);
+}
+
+.page-subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.top-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:#b4c6bc;
+  background:rgba(255,255,255,.025);
+  position:relative;
+}
+
+.icon-btn:hover{
+  color:var(--green);
+  border-color:rgba(57,255,136,.3);
+}
+
+.notification-dot{
+  position:absolute;
+  right:8px;
+  top:7px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+}
+
+.primary-btn{
+  border:0;
+  border-radius:12px;
+  padding:11px 16px;
+  color:#031009;
+  background:linear-gradient(135deg,var(--green),#9affbd);
+  font-weight:800;
+  box-shadow:0 8px 30px rgba(57,255,136,.14);
+  transition:.2s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 35px rgba(57,255,136,.24);
+}
+
+.ghost-btn{
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 14px;
+  color:#a9bdb2;
+  background:rgba(255,255,255,.025);
+}
+
+.ghost-btn:hover{
+  color:var(--green);
+  border-color:rgba(57,255,136,.3);
+}
+
+/* =========================
+   PAGES
+========================= */
+
+.page{
+  display:none;
+  animation:pageIn .35s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:235px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:30px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,rgba(4,14,9,.96),rgba(5,15,10,.74)),
+    url("https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80") center/cover;
+  box-shadow:var(--shadow);
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:330px;
+  height:330px;
+  right:-120px;
+  top:-150px;
+  border-radius:50%;
+  background:rgba(57,255,136,.1);
+  filter:blur(30px);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:650px;
+}
+
+.status-pill{
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  padding:6px 10px;
+  border:1px solid rgba(57,255,136,.2);
+  background:rgba(57,255,136,.06);
+  color:var(--green);
+  border-radius:50px;
+  font-size:10px;
+  font-family:"JetBrains Mono";
+  margin-bottom:16px;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 12px var(--green);
+  animation:pulse 1.8s infinite;
+}
+
+.hero h1{
+  font-size:clamp(28px,4vw,46px);
+  line-height:1.05;
+  letter-spacing:-1.5px;
+  margin-bottom:12px;
+}
+
+.hero h1 span{
+  color:var(--green);
+}
+
+.hero p{
+  color:#91a59a;
+  line-height:1.7;
+  max-width:610px;
+  font-size:13px;
+}
+
+.hero-actions{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* =========================
+   STAT CARDS
+========================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin:18px 0;
+}
+
+.card{
+  background:linear-gradient(145deg,rgba(18,29,22,.8),rgba(7,13,10,.82));
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+
+.stat-card{
+  padding:19px;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat-card::after{
+  content:"";
+  position:absolute;
+  right:-20px;
+  bottom:-30px;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:rgba(57,255,136,.05);
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-label{
+  color:#82958a;
+  font-size:11px;
+}
+
+.stat-icon{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:rgba(57,255,136,.07);
+  color:var(--green);
+}
+
+.stat-value{
+  font-size:28px;
+  font-weight:800;
+  margin-top:14px;
+}
+
+.stat-change{
+  color:var(--green);
+  font-size:10px;
+  margin-top:5px;
+  font-family:"JetBrains Mono";
+}
+
+/* =========================
+   DASHBOARD GRID
+========================= */
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+}
+
+.panel{
+  background:rgba(10,17,13,.76);
+  border:1px solid var(--border);
+  border-radius:19px;
+  overflow:hidden;
+}
+
+.panel-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 19px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.panel-title{
+  font-size:14px;
+  font-weight:750;
+}
+
+.panel-sub{
+  color:#65776d;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.panel-body{
+  padding:18px;
+}
+
+/* =========================
+   TASKS
+========================= */
+
+.task{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.task:last-child{
+  border-bottom:0;
+}
+
+.check{
+  width:20px;
+  height:20px;
+  border:1px solid #365044;
+  border-radius:6px;
+  background:transparent;
+  color:var(--green);
+  display:grid;
+  place-items:center;
+  font-size:12px;
+  flex:none;
+}
+
+.task.done .check{
+  background:rgba(57,255,136,.12);
+  border-color:rgba(57,255,136,.35);
+}
+
+.task.done .task-name{
+  text-decoration:line-through;
+  color:#65766d;
+}
+
+.task-info{
+  flex:1;
+  min-width:0;
+}
+
+.task-name{
+  font-size:12px;
+  font-weight:600;
+}
+
+.task-meta{
+  display:flex;
+  gap:8px;
+  margin-top:5px;
+  color:#687970;
+  font-size:9px;
+}
+
+.tag{
+  padding:4px 7px;
+  border-radius:5px;
+  background:rgba(57,255,136,.07);
+  color:var(--green);
+  font-size:9px;
+  font-family:"JetBrains Mono";
+}
+
+.tag.warning{
+  color:var(--warning);
+  background:rgba(255,200,87,.08);
+}
+
+.tag.danger{
+  color:var(--danger);
+  background:rgba(255,84,112,.08);
+}
+
+.tag.blue{
+  color:var(--blue);
+  background:rgba(86,168,255,.08);
+}
+
+/* =========================
+   MEMBERS
+========================= */
+
+.member{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 0;
+  border-bottom:1px solid rgba(255,255,255,.045);
+}
+
+.member:last-child{
+  border-bottom:0;
+}
+
+.member-info{
+  flex:1;
+}
+
+.member-name{
+  font-size:12px;
+  font-weight:700;
+}
+
+.member-role{
+  color:#64766d;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.online{
+  width:7px;
+  height:7px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 8px rgba(57,255,136,.7);
+}
+
+.offline{
+  width:7px;
+  height:7px;
+  background:#46564e;
+  border-radius:50%;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-row{
+  margin-bottom:17px;
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.progress-label span:last-child{
+  color:var(--green);
+  font-family:"JetBrains Mono";
+}
+
+.progress{
+  height:6px;
+  border-radius:10px;
+  background:#18231d;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,var(--green2),var(--green3));
+  box-shadow:0 0 12px rgba(57,255,136,.3);
+  transition:1s;
+}
+
+/* =========================
+   ACTIVITY
+========================= */
+
+.activity{
+  display:flex;
+  gap:12px;
+  padding:12px 0;
+}
+
+.activity-icon{
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:rgba(57,255,136,.06);
+  color:var(--green);
+  flex:none;
+}
+
+.activity-text{
+  font-size:11px;
+  line-height:1.5;
+}
+
+.activity-text b{
+  color:#dfffea;
+}
+
+.activity-time{
+  display:block;
+  color:#53645b;
+  font-size:9px;
+  margin-top:3px;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.search{
+  position:relative;
+  flex:1;
+  min-width:220px;
+}
+
+.search input{
+  width:100%;
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:11px 13px 11px 38px;
+  outline:none;
+  color:var(--white);
+}
+
+.search input:focus{
+  border-color:rgba(57,255,136,.35);
+  box-shadow:0 0 0 3px rgba(57,255,136,.04);
+}
+
+.search-icon{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#64766d;
+}
+
+.filters{
+  display:flex;
+  gap:8px;
+}
+
+select{
+  border:1px solid var(--border);
+  background:#0b1510;
+  color:#a8bbb0;
+  border-radius:11px;
+  padding:10px 12px;
+  outline:none;
+}
+
+/* =========================
+   MEMBERS PAGE
+========================= */
+
+.members-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.member-card{
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.member-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(57,255,136,.25);
+}
+
+.member-card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+
+.big-avatar{
+  width:60px;
+  height:60px;
+  border-radius:18px;
+  object-fit:cover;
+  border:1px solid rgba(57,255,136,.2);
+}
+
+.role-chip{
+  font-size:9px;
+  color:var(--green);
+  background:rgba(57,255,136,.07);
+  padding:5px 8px;
+  border-radius:20px;
+}
+
+.member-card h3{
+  margin-top:15px;
+  font-size:14px;
+}
+
+.member-card p{
+  color:#687970;
+  font-size:10px;
+  margin-top:4px;
+}
+
+.member-skills{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  margin-top:13px;
+}
+
+.skill{
+  padding:5px 7px;
+  border-radius:6px;
+  background:#101b15;
+  color:#81958a;
+  font-size:9px;
+}
+
+.card-actions{
+  display:flex;
+  gap:7px;
+  margin-top:16px;
+}
+
+.small-btn{
+  flex:1;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  color:#8fa198;
+  border-radius:9px;
+  padding:8px;
+  font-size:10px;
+}
+
+.small-btn:hover{
+  color:var(--green);
+  border-color:rgba(57,255,136,.25);
+}
+
+/* =========================
+   PROJECTS
+========================= */
+
+.projects-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.project-card{
+  padding:0;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.project-card:hover{
+  transform:translateY(-4px);
+}
+
+.project-img{
+  height:145px;
+  width:100%;
+  object-fit:cover;
+  filter:saturate(.7);
+}
+
+.project-content{
+  padding:17px;
+}
+
+.project-content h3{
+  font-size:14px;
+}
+
+.project-content p{
+  color:#687970;
+  font-size:10px;
+  line-height:1.5;
+  margin:7px 0 13px;
+}
+
+.project-foot{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* =========================
+   TASK TABLE
+========================= */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:680px;
+}
+
+th{
+  color:#5d7066;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  text-align:left;
+  padding:13px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+td{
+  padding:13px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  color:#a5b7ad;
+  font-size:11px;
+}
+
+td strong{
+  color:#e8fff0;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:9px;
+}
+
+.status.active{
+  color:var(--green);
+  background:rgba(57,255,136,.07);
+}
+
+.status.pending{
+  color:var(--warning);
+  background:rgba(255,200,87,.07);
+}
+
+.status.done{
+  color:#70b7ff;
+  background:rgba(86,168,255,.07);
+}
+
+/* =========================
+   ANALYTICS
+========================= */
+
+.analytics-grid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:16px;
+}
+
+.chart{
+  height:270px;
+  padding:20px;
+  position:relative;
+}
+
+.chart-area{
+  height:190px;
+  display:flex;
+  align-items:flex-end;
+  gap:9px;
+  border-bottom:1px solid #1a2a20;
+  border-left:1px solid #1a2a20;
+  padding:0 12px;
+}
+
+.bar{
+  flex:1;
+  min-width:10px;
+  height:30%;
+  border-radius:6px 6px 0 0;
+  background:linear-gradient(to top,rgba(57,255,136,.15),var(--green));
+  box-shadow:0 0 15px rgba(57,255,136,.06);
+  animation:grow 1s ease both;
+}
+
+.bar:nth-child(2){height:45%}
+.bar:nth-child(3){height:37%}
+.bar:nth-child(4){height:65%}
+.bar:nth-child(5){height:53%}
+.bar:nth-child(6){height:78%}
+.bar:nth-child(7){height:70%}
+.bar:nth-child(8){height:88%}
+.bar:nth-child(9){height:73%}
+.bar:nth-child(10){height:94%}
+.bar:nth-child(11){height:82%}
+.bar:nth-child(12){height:97%}
+
+.chart-labels{
+  display:flex;
+  justify-content:space-around;
+  color:#56675e;
+  font-size:8px;
+  margin-top:8px;
+}
+
+.metric{
+  padding:18px;
+  margin-bottom:10px;
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:14px;
+  background:rgba(255,255,255,.015);
+}
+
+.metric-top{
+  display:flex;
+  justify-content:space-between;
+}
+
+.metric-label{
+  color:#687970;
+  font-size:10px;
+}
+
+.metric-value{
+  font-size:24px;
+  font-weight:800;
+  margin-top:7px;
+}
+
+.metric-value.green{
+  color:var(--green);
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.setting{
+  padding:18px;
+}
+
+.setting h3{
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.setting p{
+  color:#687970;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+
+.setting-row:last-child{
+  border:0;
+}
+
+.switch{
+  width:40px;
+  height:22px;
+  border-radius:20px;
+  background:#1c2921;
+  position:relative;
+  cursor:pointer;
+}
+
+.switch::after{
+  content:"";
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  background:#728278;
+  position:absolute;
+  top:3px;
+  left:3px;
+  transition:.2s;
+}
+
+.switch.on{
+  background:rgba(57,255,136,.18);
+}
+
+.switch.on::after{
+  left:21px;
+  background:var(--green);
+  box-shadow:0 0 10px rgba(57,255,136,.5);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:none;
+  place-items:center;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(10px);
+  padding:18px;
+}
+
+.modal-backdrop.show{
+  display:grid;
+}
+
+.modal{
+  width:min(510px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border:1px solid rgba(57,255,136,.18);
+  background:#09110d;
+  border-radius:22px;
+  box-shadow:0 30px 100px rgba(0,0,0,.7);
+  animation:modalIn .25s ease;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:19px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.modal-head h2{
+  font-size:16px;
+}
+
+.close{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:#91a59a;
+}
+
+.modal-body{
+  padding:19px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+  color:#83958b;
+  font-size:10px;
+  margin-bottom:6px;
+}
+
+.form-control{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#07100b;
+  color:var(--white);
+  outline:none;
+}
+
+.form-control:focus{
+  border-color:rgba(57,255,136,.35);
+}
+
+.form-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:18px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:2000;
+  max-width:330px;
+  padding:13px 15px;
+  border:1px solid rgba(57,255,136,.2);
+  border-radius:13px;
+  background:#0b1710;
+  color:#bceccc;
+  box-shadow:var(--shadow);
+  transform:translateY(100px);
+  opacity:0;
+  transition:.3s;
+  font-size:11px;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+  padding:40px;
+  text-align:center;
+  color:#5e7066;
+}
+
+.empty-icon{
+  font-size:30px;
+  margin-bottom:10px;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.45;transform:scale(.7)}
+}
+
+@keyframes scan{
+  from{left:-100px}
+  to{left:200px}
+}
+
+@keyframes grow{
+  from{height:0}
+}
+
+@keyframes modalIn{
+  from{opacity:0;transform:translateY(15px) scale(.97)}
+  to{opacity:1;transform:none}
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .members-grid,
+  .projects-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:900px){
+  .sidebar{
+    transform:translateX(-100%);
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    padding:15px;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .dashboard-grid,
+  .analytics-grid,
+  .settings-grid{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    height:auto;
+    min-height:58px;
+  }
+}
+
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:14px;
+  }
+
+  .stat-value{
+    font-size:22px;
+  }
+
+  .hero{
+    padding:22px;
+    min-height:280px;
+  }
+
+  .members-grid,
+  .projects-grid{
+    grid-template-columns:1fr;
+  }
+
+  .top-actions .primary-btn{
+    display:none;
+  }
+
+  .page-title{
+    font-size:18px;
+  }
+
+  .filters{
+    width:100%;
+  }
+
+  .filters select{
+    flex:1;
+  }
+}
+
+@media(max-width:390px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid-bg"></div>
+<div class="noise"></div>
+
+<!-- ========================= SIDEBAR ========================= -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+    <div class="brand-logo">
+      <span>G</span>
+    </div>
+    <div class="brand-name">
+      GreenOps
+      <small>ETHICAL SECURITY</small>
+    </div>
+  </div>
+
+  <div class="nav-title">WORKSPACE</div>
+
+  <button class="nav-item active" data-page="dashboard">
+    <span class="nav-icon">⌂</span>
+    Dashboard
+  </button>
+
+  <button class="nav-item" data-page="tasks">
+    <span class="nav-icon">✓</span>
+    Tasks
+    <span class="nav-badge" id="taskBadge">8</span>
+  </button>
+
+  <button class="nav-item" data-page="members">
+    <span class="nav-icon">◉</span>
+    Team Members
+  </button>
+
+  <button class="nav-item" data-page="projects">
+    <span class="nav-icon">▣</span>
+    Projects
+  </button>
+
+  <button class="nav-item" data-page="analytics">
+    <span class="nav-icon">◫</span>
+    Analytics
+  </button>
+
+  <div class="nav-title">COMMUNITY</div>
+
+  <button class="nav-item" data-page="activity">
+    <span class="nav-icon">◌</span>
+    Activity Feed
+  </button>
+
+  <button class="nav-item" data-page="guidelines">
+    <span class="nav-icon">◇</span>
+    Ethics & Rules
+  </button>
+
+  <button class="nav-item" data-page="settings">
+    <span class="nav-icon">⚙</span>
+    Settings
+  </button>
+
+  <div class="sidebar-bottom">
+    <div class="user-mini">
+      <img class="avatar"
+      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80">
+      <div>
+        <strong>Community Admin</strong>
+        <span>GREEN HAT</span>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ========================= MAIN ========================= -->
+
+<main class="main">
+
+  <header class="topbar">
+
+    <div class="top-left">
+      <button class="mobile-menu" id="mobileMenu">☰</button>
+
+      <div>
+        <div class="page-title" id="pageTitle">
+          Green<span>Ops</span> Dashboard
+        </div>
+        <div class="page-subtitle">
+          Ethical security community command center
+        </div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="notificationBtn">
+        ♧
+        <span class="notification-dot"></span>
+      </button>
+
+      <button class="icon-btn" id="quickAddBtn">＋</button>
+
+      <button class="primary-btn" id="inviteTopBtn">
+        + Invite Member
+      </button>
+    </div>
+
+  </header>
+
+  <!-- ========================= DASHBOARD ========================= -->
+
+  <section class="page active" id="page-dashboard">
+
+    <div class="hero">
+
+      <div class="hero-content">
+
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          COMMUNITY ONLINE
+        </div>
+
+        <h1>
+          Build. Learn. <span>Secure.</span>
+        </h1>
+
+        <p>
+          GreenOps is a community workspace for ethical cybersecurity
+          learners and authorized security teams. Organize members,
+          projects, learning tasks and responsible security activities
+          from one panel.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary-btn" onclick="openModal('taskModal')">
+            + Create Task
+          </button>
+
+          <button class="ghost-btn" onclick="navigate('members')">
+            View Team →
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="stats">
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <span class="stat-label">TEAM MEMBERS</span>
+          <span class="stat-icon">◉</span>
+        </div>
+        <div class="stat-value" id="memberCount">12</div>
+        <div class="stat-change">↑ 3 this month</div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <span class="stat-label">ACTIVE TASKS</span>
+          <span class="stat-icon">✓</span>
+        </div>
+        <div class="stat-value" id="activeTaskCount">8</div>
+        <div class="stat-change">↑ 14% productivity</div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <span class="stat-label">PROJECTS</span>
+          <span class="stat-icon">▣</span>
+        </div>
+        <div class="stat-value">6</div>
+        <div class="stat-change">2 near completion</div>
+      </div>
+
+      <div class="card stat-card">
+        <div class="stat-top">
+          <span class="stat-label">SECURITY SCORE</span>
+          <span class="stat-icon">◆</span>
+        </div>
+        <div class="stat-value">94%</div>
+        <div class="stat-change">↑ Excellent</div>
+      </div>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+      <!-- Tasks -->
+      <div class="panel">
+
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Priority Tasks</div>
+            <div class="panel-sub">Current community workload</div>
+          </div>
+
+          <button class="ghost-btn" onclick="navigate('tasks')">
+            View all
+          </button>
+        </div>
+
+        <div class="panel-body" id="dashboardTasks"></div>
+
+      </div>
+
+      <!-- Members -->
+      <div class="panel">
+
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Team Online</div>
+            <div class="panel-sub">Community members</div>
+          </div>
+
+          <button class="ghost-btn" onclick="navigate('members')">
+            Manage
+          </button>
+        </div>
+
+        <div class="panel-body" id="dashboardMembers"></div>
+
+      </div>
+
+      <!-- Project Progress -->
+      <div class="panel">
+
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Project Progress</div>
+            <div class="panel-sub">Active community projects</div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+
+          <div class="progress-row">
+            <div class="progress-label">
+              <span>OWASP Learning Lab</span>
+              <span>82%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width:82%"></div>
+            </div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-label">
+              <span>Linux Security Study</span>
+              <span>67%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width:67%"></div>
+            </div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-label">
+              <span>Web Security Basics</span>
+              <span>54%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width:54%"></div>
+            </div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-label">
+              <span>CTF Practice Lab</span>
+              <span>39%</span>
+            </div>
+            <div class="progress">
+              <div class="progress-bar" style="width:39%"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Activity -->
+      <div class="panel">
+
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Recent Activity</div>
+            <div class="panel-sub">Latest team events</div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+
+          <div class="activity">
+            <div class="activity-icon">✓</div>
+            <div class="activity-text">
+              <b>Aarav</b> completed Linux hardening task.
+              <span class="activity-time">8 minutes ago</span>
+            </div>
+          </div>
+
+          <div class="activity">
+            <div class="activity-icon">+</div>
+            <div class="activity-text">
+              <b>Priya</b> joined the GreenOps community.
+              <span class="activity-time">31 minutes ago</span>
+            </div>
+          </div>
+
+          <div class="activity">
+            <div class="activity-icon">▣</div>
+            <div class="activity-text">
+              New project <b>WebSec Lab</b> was created.
+              <span class="activity-time">1 hour ago</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= TASKS ========================= -->
+
+  <section class="page" id="page-tasks">
+
+    <div class="toolbar">
+
+      <div class="search">
+        <span class="search-icon">⌕</span>
+        <input id="taskSearch" placeholder="Search tasks...">
+      </div>
+
+      <div class="filters">
+        <select id="taskFilter">
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="pending">Pending</option>
+          <option value="done">Completed</option>
+        </select>
+
+        <button class="primary-btn" onclick="openModal('taskModal')">
+          + New Task
+        </button>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Task Management</div>
+          <div class="panel-sub">
+            Assign and track authorized community work
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Assignee</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+
+          <tbody id="taskTable"></tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= MEMBERS ========================= -->
+
+  <section class="page" id="page-members">
+
+    <div class="toolbar">
+
+      <div class="search">
+        <span class="search-icon">⌕</span>
+        <input id="memberSearch" placeholder="Search team members...">
+      </div>
+
+      <button class="primary-btn" onclick="openModal('memberModal')">
+        + Add Member
+      </button>
+
+    </div>
+
+    <div class="members-grid" id="membersGrid"></div>
+
+  </section>
+
+  <!-- ========================= PROJECTS ========================= -->
+
+  <section class="page" id="page-projects">
+
+    <div class="toolbar">
+
+      <div>
+        <div class="panel-title">Community Projects</div>
+        <div class="panel-sub">
+          Learning, defensive and authorized security projects
+        </div>
+      </div>
+
+      <button class="primary-btn" onclick="openModal('projectModal')">
+        + New Project
+      </button>
+
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>OWASP Learning Lab</h3>
+          <p>
+            Structured learning project for understanding common
+            web security weaknesses in intentionally safe labs.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag">LEARNING</span>
+            <span style="font-size:10px;color:#72847a">82%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>WebSec Lab</h3>
+          <p>
+            Authorized practice environment for web security
+            concepts and defensive testing.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag blue">LAB</span>
+            <span style="font-size:10px;color:#72847a">54%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>Linux Security Study</h3>
+          <p>
+            Community study project covering Linux administration,
+            hardening and defensive security.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag">LINUX</span>
+            <span style="font-size:10px;color:#72847a">67%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>CTF Practice Arena</h3>
+          <p>
+            Controlled capture-the-flag challenges for learning
+            security concepts legally.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag warning">CTF</span>
+            <span style="font-size:10px;color:#72847a">39%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>Network Defense</h3>
+          <p>
+            Study project focused on network visibility, monitoring
+            and defensive security.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag">DEFENSE</span>
+            <span style="font-size:10px;color:#72847a">46%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <img class="project-img"
+        src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80">
+
+        <div class="project-content">
+          <h3>Security Documentation</h3>
+          <p>
+            Shared documentation hub for notes, checklists,
+            learning resources and responsible disclosure.
+          </p>
+
+          <div class="project-foot">
+            <span class="tag blue">DOCS</span>
+            <span style="font-size:10px;color:#72847a">71%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= ANALYTICS ========================= -->
+
+  <section class="page" id="page-analytics">
+
+    <div class="analytics-grid">
+
+      <div class="panel chart">
+
+        <div class="panel-head" style="padding:0 0 18px">
+          <div>
+            <div class="panel-title">Community Productivity</div>
+            <div class="panel-sub">Weekly task completion</div>
+          </div>
+
+          <span class="tag">+24.8%</span>
+        </div>
+
+        <div class="chart-area">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+
+        <div class="chart-labels">
+          <span>W1</span>
+          <span>W2</span>
+          <span>W3</span>
+          <span>W4</span>
+          <span>W5</span>
+          <span>W6</span>
+        </div>
+
+      </div>
+
+      <div>
+
+        <div class="card metric">
+          <div class="metric-top">
+            <span class="metric-label">TASK COMPLETION</span>
+            <span class="tag">GOOD</span>
+          </div>
+          <div class="metric-value green">91.4%</div>
+        </div>
+
+        <div class="card metric">
+          <div class="metric-top">
+            <span class="metric-label">MEMBER ACTIVITY</span>
+            <span class="tag blue">LIVE</span>
+          </div>
+          <div class="metric-value">76%</div>
+        </div>
+
+        <div class="card metric">
+          <div class="metric-top">
+            <span class="metric-label">PROJECT HEALTH</span>
+            <span class="tag">94%</span>
+          </div>
+          <div class="metric-value green">Excellent</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= ACTIVITY ========================= -->
+
+  <section class="page" id="page-activity">
+
+    <div class="panel">
+
+      <div class="panel-head">
+        <div>
+          <div class="panel-title">Community Activity Feed</div>
+          <div class="panel-sub">Latest actions across GreenOps</div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+
+        <div class="activity">
+          <div class="activity-icon">✓</div>
+          <div class="activity-text">
+            <b>Aarav Sharma</b> completed
+            <b>Linux hardening checklist</b>.
+            <span class="activity-time">8 minutes ago</span>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">+</div>
+          <div class="activity-text">
+            <b>Priya Singh</b> joined the community.
+            <span class="activity-time">31 minutes ago</span>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">▣</div>
+          <div class="activity-text">
+            New project <b>WebSec Lab</b> created by Admin.
+            <span class="activity-time">1 hour ago</span>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">◇</div>
+          <div class="activity-text">
+            <b>Rohan</b> submitted a responsible-disclosure
+            learning report.
+            <span class="activity-time">2 hours ago</span>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="activity-icon">✓</div>
+          <div class="activity-text">
+            <b>Neha</b> completed OWASP study module.
+            <span class="activity-time">3 hours ago</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= GUIDELINES ========================= -->
+
+  <section class="page" id="page-guidelines">
+
+    <div class="hero" style="min-height:auto;margin-bottom:16px">
+
+      <div class="hero-content">
+
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          COMMUNITY CODE
+        </div>
+
+        <h1>
+          Learn <span>Responsibly.</span>
+        </h1>
+
+        <p>
+          GreenOps is designed around authorization, controlled
+          labs, responsible disclosure and defensive security learning.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="settings-grid">
+
+      <div class="card setting">
+        <h3>01 · Authorization First</h3>
+        <p>
+          Only test systems, applications, networks and accounts
+          where you have explicit permission.
+        </p>
+      </div>
+
+      <div class="card setting">
+        <h3>02 · Respect Scope</h3>
+        <p>
+          Follow the defined target, time window, rate limits and
+          testing boundaries of every authorized engagement.
+        </p>
+      </div>
+
+      <div class="card setting">
+        <h3>03 · Protect Data</h3>
+        <p>
+          Do not unnecessarily collect, publish or share sensitive
+          information discovered during legitimate testing.
+        </p>
+      </div>
+
+      <div class="card setting">
+        <h3>04 · Responsible Disclosure</h3>
+        <p>
+          Report security issues privately to the appropriate
+          owner or security contact with useful evidence.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ========================= SETTINGS ========================= -->
+
+  <section class="page" id="page-settings">
+
+    <div class="settings-grid">
+
+      <div class="card setting">
+
+        <h3>Workspace Preferences</h3>
+        <p>Customize the GreenOps dashboard.</p>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">Desktop Notifications</strong>
+            <div style="font-size:9px;color:#687970">Activity alerts</div>
+          </div>
+          <div class="switch on"></div>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">Task Reminders</strong>
+            <div style="font-size:9px;color:#687970">Due date notifications</div>
+          </div>
+          <div class="switch on"></div>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">Compact Mode</strong>
+            <div style="font-size:9px;color:#687970">Reduce dashboard spacing</div>
+          </div>
+          <div class="switch"></div>
+        </div>
+
+      </div>
+
+      <div class="card setting">
+
+        <h3>Security Preferences</h3>
+        <p>Community security controls.</p>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">2FA Required</strong>
+            <div style="font-size:9px;color:#687970">For admin accounts</div>
+          </div>
+          <div class="switch on"></div>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">Audit Logging</strong>
+            <div style="font-size:9px;color:#687970">Track admin actions</div>
+          </div>
+          <div class="switch on"></div>
+        </div>
+
+        <div class="setting-row">
+          <div>
+            <strong style="font-size:11px">Session Protection</strong>
+            <div style="font-size:9px;color:#687970">Secure session policy</div>
+          </div>
+          <div class="switch on"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- ========================= MEMBER MODAL ========================= -->
+
+<div class="modal-backdrop" id="memberModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2>Add Team Member</h2>
+      <button class="close" onclick="closeModal('memberModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <form id="memberForm">
+
+        <div class="form-group">
+          <label>FULL NAME</label>
+          <input class="form-control" id="memberName" required
+          placeholder="e.g. Rahul Kumar">
+        </div>
+
+        <div class="form-group">
+          <label>ROLE</label>
+          <select class="form-control" id="memberRole">
+            <option>Green Hat Learner</option>
+            <option>Security Researcher</option>
+            <option>Blue Team / Defense</option>
+            <option>Community Moderator</option>
+            <option>Project Lead</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>SKILLS</label>
+          <input class="form-control" id="memberSkills"
+          placeholder="Linux, Web Security, Python">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="ghost-btn"
+          onclick="closeModal('memberModal')">Cancel</button>
+
+          <button class="primary-btn">Add Member</button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================= TASK MODAL ========================= -->
+
+<div class="modal-backdrop" id="taskModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2>Create Task</h2>
+      <button class="close" onclick="closeModal('taskModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <form id="taskForm">
+
+        <div class="form-group">
+          <label>TASK NAME</label>
+          <input class="form-control" id="taskName" required
+          placeholder="e.g. Complete OWASP module">
+        </div>
+
+        <div class="form-group">
+          <label>ASSIGNEE</label>
+          <select class="form-control" id="taskAssignee">
+            <option>Aarav Sharma</option>
+            <option>Priya Singh</option>
+            <option>Rohan Verma</option>
+            <option>Neha Gupta</option>
+            <option>Community Admin</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>PRIORITY</label>
+          <select class="form-control" id="taskPriority">
+            <option>Medium</option>
+            <option>High</option>
+            <option>Low</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>DUE DATE</label>
+          <input class="form-control" id="taskDue" type="date">
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="ghost-btn"
+          onclick="closeModal('taskModal')">Cancel</button>
+
+          <button class="primary-btn">Create Task</button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ========================= PROJECT MODAL ========================= -->
+
+<div class="modal-backdrop" id="projectModal">
+
+  <div class="modal">
+
+    <div class="modal-head">
+      <h2>Create Project</h2>
+      <button class="close" onclick="closeModal('projectModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <form id="projectForm">
+
+        <div class="form-group">
+          <label>PROJECT NAME</label>
+          <input class="form-control" id="projectName" required
+          placeholder="e.g. Linux Security Lab">
+        </div>
+
+        <div class="form-group">
+          <label>DESCRIPTION</label>
+          <textarea class="form-control" id="projectDescription"
+          rows="4"
+          placeholder="Describe your authorized project..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="ghost-btn"
+          onclick="closeModal('projectModal')">Cancel</button>
+
+          <button class="primary-btn">Create Project</button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   GREENOPS COMMUNITY APP
+   Vanilla JavaScript
+   ============================================================ */
+
+const defaultMembers = [
+  {
+    name:"Aarav Sharma",
+    role:"Security Researcher",
+    skills:["Linux","WebSec","OWASP"],
+    online:true,
+    image:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    name:"Priya Singh",
+    role:"Green Hat Learner",
+    skills:["Python","Linux","CTF"],
+    online:true,
+    image:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    name:"Rohan Verma",
+    role:"Blue Team / Defense",
+    skills:["Networks","Defense","SIEM"],
+    online:true,
+    image:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    name:"Neha Gupta",
+    role:"Project Lead",
+    skills:["Management","Docs","Security"],
+    online:false,
+    image:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    name:"Vikram Singh",
+    role:"Green Hat Learner",
+    skills:["Linux","Networking"],
+    online:true,
+    image:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    name:"Ananya Roy",
+    role:"Security Researcher",
+    skills:["Web","OSINT","Python"],
+    online:false,
+    image:"https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
+  }
+];
+
+const defaultTasks = [
+  {
+    name:"Complete OWASP Top 10 Module",
+    assignee:"Priya Singh",
+    priority:"High",
+    status:"active",
+    due:"Today"
+  },
+  {
+    name:"Linux Hardening Checklist",
+    assignee:"Aarav Sharma",
+    priority:"Medium",
+    status:"done",
+    due:"Today"
+  },
+  {
+    name:"Network Defense Notes",
+    assignee:"Rohan Verma",
+    priority:"Medium",
+    status:"active",
+    due:"Tomorrow"
+  },
+  {
+    name:"CTF Practice Challenge",
+    assignee:"Vikram Singh",
+    priority:"Low",
+    status:"pending",
+    due:"Aug 02"
+  },
+  {
+    name:"Security Documentation",
+    assignee:"Neha Gupta",
+    priority:"Medium",
+    status:"active",
+    due:"Aug 03"
+  },
+  {
+    name:"Web Security Study",
+    assignee:"Ananya Roy",
+    priority:"High",
+    status:"pending",
+    due:"Aug 04"
+  }
+];
+
+let members =
+  JSON.parse(localStorage.getItem("greenops_members")) ||
+  defaultMembers;
+
+let tasks =
+  JSON.parse(localStorage.getItem("greenops_tasks")) ||
+  defaultTasks;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function saveData(){
+  localStorage.setItem("greenops_members",JSON.stringify(members));
+  localStorage.setItem("greenops_tasks",JSON.stringify(tasks));
+}
+
+function toast(message){
+  const t=document.getElementById("toast");
+  t.textContent=message;
+  t.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    t.classList.remove("show");
+  },2800);
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+const pageTitles={
+  dashboard:"Green<span>Ops</span> Dashboard",
+  tasks:"Task <span>Management</span>",
+  members:"Team <span>Members</span>",
+  projects:"Community <span>Projects</span>",
+  analytics:"Security <span>Analytics</span>",
+  activity:"Activity <span>Feed</span>",
+  guidelines:"Ethics <span>& Rules</span>",
+  settings:"Workspace <span>Settings</span>"
+};
+
+function navigate(page){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const target=document.getElementById("page-"+page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-item").forEach(item=>{
+    item.classList.toggle(
+      "active",
+      item.dataset.page===page
+    );
+  });
+
+  document.getElementById("pageTitle").innerHTML =
+    pageTitles[page] || "GreenOps";
+
+  document.getElementById("sidebar").classList.remove("open");
+
+  if(page==="dashboard") renderDashboard();
+  if(page==="tasks") renderTasks();
+  if(page==="members") renderMembers();
+}
+
+document.querySelectorAll(".nav-item").forEach(item=>{
+  item.addEventListener("click",()=>{
+    navigate(item.dataset.page);
+  });
+});
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+document.getElementById("mobileMenu").addEventListener("click",()=>{
+  document.getElementById("sidebar").classList.toggle("open");
+});
+
+
+/* =========================
+   MODALS
+========================= */
+
+function openModal(id){
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+}
+
+document.querySelectorAll(".modal-backdrop").forEach(backdrop=>{
+  backdrop.addEventListener("click",e=>{
+    if(e.target===backdrop){
+      backdrop.classList.remove("show");
+    }
+  });
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){
+    document.querySelectorAll(".modal-backdrop").forEach(m=>{
+      m.classList.remove("show");
+    });
+  }
+});
+
+
+/* =========================
+   MEMBER RENDER
+========================= */
+
+function renderMembers(){
+
+  const grid=document.getElementById("membersGrid");
+
+  const search=
+    document.getElementById("memberSearch")?.value
+    .toLowerCase() || "";
+
+  const filtered=members.filter(member=>
+    member.name.toLowerCase().includes(search) ||
+    member.role.toLowerCase().includes(search) ||
+    member.skills.join(" ").toLowerCase().includes(search)
+  );
+
+  if(!filtered.length){
+    grid.innerHTML=`
+      <div class="card empty" style="grid-column:1/-1">
+        <div class="empty-icon">◉</div>
+        No members found.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML=filtered.map((m,index)=>`
+
+    <div class="card member-card">
+
+      <div class="member-card-top">
+
+        <img
+          class="big-avatar"
+          src="${m.image}"
+          onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80'"
+        >
+
+        <span class="role-chip">${m.role}</span>
+
+      </div>
+
+      <h3>${escapeHTML(m.name)}</h3>
+
+      <p>
+        <span class="${m.online?'online':'offline'}"
+        style="display:inline-block;margin-right:5px"></span>
+        ${m.online?'Online':'Offline'}
+      </p>
+
+      <div class="member-skills">
+        ${m.skills.map(skill=>`
+          <span class="skill">${escapeHTML(skill)}</span>
+        `).join("")}
+      </div>
+
+      <div class="card-actions">
+
+        <button class="small-btn"
+        onclick="toast('Member profile opened')">
+          Profile
+        </button>
+
+        <button class="small-btn"
+        onclick="removeMember(${members.indexOf(m)})">
+          Remove
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
+
+  document.getElementById("memberCount").textContent=members.length;
+}
+
+
+/* =========================
+   REMOVE MEMBER
+========================= */
+
+function removeMember(index){
+
+  if(!confirm("Remove this member from the community?")){
+    return;
+  }
+
+  members.splice(index,1);
+
+  saveData();
+  renderMembers();
+  renderDashboard();
+
+  toast("Member removed.");
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function renderDashboard(){
+
+  const taskBox=document.getElementById("dashboardTasks");
+
+  const activeTasks=tasks
+    .filter(t=>t.status!=="done")
+    .slice(0,5);
+
+  taskBox.innerHTML=activeTasks.map((t,index)=>`
+
+    <div class="task ${t.status==="done"?"done":""}">
+
+      <button
+        class="check"
+        onclick="toggleTask(${tasks.indexOf(t)})">
+        ${t.status==="done"?"✓":""}
+      </button>
+
+      <div class="task-info">
+
+        <div class="task-name">
+          ${escapeHTML(t.name)}
+        </div>
+
+        <div class="task-meta">
+          <span>${escapeHTML(t.assignee)}</span>
+          <span>•</span>
+          <span>${escapeHTML(t.due)}</span>
+        </div>
+
+      </div>
+
+      <span class="tag ${
+        t.priority==="High"
+        ?"danger"
+        :t.priority==="Medium"
+        ?"warning"
+        :""
+      }">
+        ${t.priority}
+      </span>
+
+    </div>
+
+  `).join("");
+
+  if(!activeTasks.length){
+    taskBox.innerHTML=`
+      <div class="empty">
+        All tasks completed 🎉
+      </div>
+    `;
+  }
+
+  const memberBox=document.getElementById("dashboardMembers");
+
+  memberBox.innerHTML=members.slice(0,5).map(m=>`
+
+    <div class="member">
+
+      <img
+        class="avatar"
+        src="${m.image}"
+        onerror="this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80'"
+      >
+
+      <div class="member-info">
+        <div class="member-name">
+          ${escapeHTML(m.name)}
+        </div>
+
+        <div class="member-role">
+          ${escapeHTML(m.role)}
+        </div>
+      </div>
+
+      <span class="${m.online?'online':'offline'}"></span>
+
+    </div>
+
+  `).join("");
+
+  const activeCount=tasks.filter(t=>t.status!=="done").length;
+
+  document.getElementById("activeTaskCount").textContent=activeCount;
+  document.getElementById("taskBadge").textContent=activeCount;
+}
+
+
+/* =========================
+   TASK TABLE
+========================= */
+
+function renderTasks(){
+
+  const table=document.getElementById("taskTable");
+
+  const search=
+    document.getElementById("taskSearch")?.value
+    .toLowerCase() || "";
+
+  const filter=
+    document.getElementById("taskFilter")?.value || "all";
+
+  const filtered=tasks.filter(t=>{
+
+    const matchesSearch=
+      t.name.toLowerCase().includes(search) ||
+      t.assignee.toLowerCase().includes(search);
+
+    const matchesFilter=
+      filter==="all" ||
+      t.status===filter;
+
+    return matchesSearch && matchesFilter;
+  });
+
+  table.innerHTML=filtered.map(t=>`
+
+    <tr>
+
+      <td>
+        <strong>${escapeHTML(t.name)}</strong>
+      </td>
+
+      <td>${escapeHTML(t.assignee)}</td>
+
+      <td>
+        <span class="tag ${
+          t.priority==="High"
+          ?"danger"
+          :t.priority==="Medium"
+          ?"warning"
+          :""
+        }">
+          ${t.priority}
+        </span>
+      </td>
+
+      <td>
+        <span class="status ${t.status}">
+          ${t.status==="active"?"● Active":
+            t.status==="pending"?"◷ Pending":"✓ Done"}
+        </span>
+      </td>
+
+      <td>${escapeHTML(t.due)}</td>
+
+    </tr>
+
+  `).join("");
+
+  if(!filtered.length){
+    table.innerHTML=`
+      <tr>
+        <td colspan="5" style="text-align:center;padding:40px">
+          No tasks found.
+        </td>
+      </tr>
+    `;
+  }
+}
+
+
+/* =========================
+   TOGGLE TASK
+========================= */
+
+function toggleTask(index){
+
+  tasks[index].status =
+    tasks[index].status==="done"
+    ? "active"
+    : "done";
+
+  saveData();
+  renderDashboard();
+  renderTasks();
+
+  toast(
+    tasks[index].status==="done"
+    ? "Task completed ✓"
+    : "Task moved back to active"
+  );
+}
+
+
+/* =========================
+   ADD MEMBER
+========================= */
+
+document.getElementById("memberForm").addEventListener("submit",e=>{
+
+  e.preventDefault();
+
+  const name=
+    document.getElementById("memberName").value.trim();
+
+  const role=
+    document.getElementById("memberRole").value;
+
+  const skills=
+    document.getElementById("memberSkills").value
+      .split(",")
+      .map(x=>x.trim())
+      .filter(Boolean);
+
+  if(!name){
+    return;
+  }
+
+  members.unshift({
+    name,
+    role,
+    skills:skills.length?skills:["Cybersecurity"],
+    online:true,
+    image:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80"
+  });
+
+  saveData();
+
+  e.target.reset();
+
+  closeModal("memberModal");
+
+  renderMembers();
+  renderDashboard();
+
+  toast(name+" added to GreenOps.");
+});
+
+
+/* =========================
+   ADD TASK
+========================= */
+
+document.getElementById("taskForm").addEventListener("submit",e=>{
+
+  e.preventDefault();
+
+  const name=
+    document.getElementById("taskName").value.trim();
+
+  const assignee=
+    document.getElementById("taskAssignee").value;
+
+  const priority=
+    document.getElementById("taskPriority").value;
+
+  const dueRaw=
+    document.getElementById("taskDue").value;
+
+  const due=
+    dueRaw
+    ? new Date(dueRaw).toLocaleDateString()
+    : "No deadline";
+
+  tasks.unshift({
+    name,
+    assignee,
+    priority,
+    status:"active",
+    due
+  });
+
+  saveData();
+
+  e.target.reset();
+
+  closeModal("taskModal");
+
+  renderTasks();
+  renderDashboard();
+
+  toast("New task created.");
+});
+
+
+/* =========================
+   PROJECT
+========================= */
+
+document.getElementById("projectForm").addEventListener("submit",e=>{
+
+  e.preventDefault();
+
+  const name=
+    document.getElementById("projectName").value.trim();
+
+  closeModal("projectModal");
+
+  e.target.reset();
+
+  toast(
+    name
+    ? "Project '"+name+"' created."
+    : "Project created."
+  );
+});
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById("memberSearch")
+  .addEventListener("input",renderMembers);
+
+document.getElementById("taskSearch")
+  .addEventListener("input",renderTasks);
+
+document.getElementById("taskFilter")
+  .addEventListener("change",renderTasks);
+
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+document.getElementById("inviteTopBtn")
+  .addEventListener("click",()=>{
+    openModal("memberModal");
+  });
+
+document.getElementById("quickAddBtn")
+  .addEventListener("click",()=>{
+    openModal("taskModal");
+  });
+
+document.getElementById("notificationBtn")
+  .addEventListener("click",()=>{
+    toast("You have 3 new community notifications.");
+  });
+
+
+/* =========================
+   SWITCHES
+========================= */
+
+document.querySelectorAll(".switch").forEach(sw=>{
+  sw.addEventListener("click",()=>{
+    sw.classList.toggle("on");
+
+    toast(
+      sw.classList.contains("on")
+      ? "Setting enabled"
+      : "Setting disabled"
+    );
+  });
+});
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   INIT
+========================= */
+
+renderDashboard();
+renderMembers();
+renderTasks();
+
+setTimeout(()=>{
+  document.querySelectorAll(".progress-bar").forEach(bar=>{
+    const width=bar.style.width;
+    bar.style.width="0";
+
+    requestAnimationFrame(()=>{
+      bar.style.width=width;
+    });
+  });
+},300);
+
+</script>
+
+</body>
+</html>
